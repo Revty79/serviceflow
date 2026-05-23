@@ -6,7 +6,7 @@ export default function Home() {
     <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-10 px-6 py-14">
       <section className="rounded-3xl border border-teal-100 bg-gradient-to-br from-teal-50 via-white to-amber-50 p-8 shadow-sm">
         <p className="text-xs font-semibold uppercase tracking-widest text-teal-700">
-          ClientFlow Template
+          ServiceFlow Template
         </p>
         <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-slate-900">
           Reusable lead capture and client workflow starter for local service

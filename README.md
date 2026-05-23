@@ -1,4 +1,4 @@
-# ClientFlow
+# ServiceFlow
 
 Reusable lead capture, scheduling request, and admin workflow template for local service businesses.
 

@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "ClientFlow",
-    template: "%s | ClientFlow",
+    default: "ServiceFlow",
+    template: "%s | ServiceFlow",
   },
   description:
     "Reusable lead capture and client management template for local service businesses.",

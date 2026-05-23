@@ -14,7 +14,7 @@ export default function AdminLayout({
       <header className="border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
           <Link className="text-sm font-semibold text-slate-900" href="/">
-            ClientFlow
+            ServiceFlow
           </Link>
           <nav className="flex items-center gap-4 text-sm text-slate-700">
             {adminNav.map((item) => (

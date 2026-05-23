@@ -1,4 +1,4 @@
-# ClientFlow Architecture (MVP Foundation)
+# ServiceFlow Architecture (MVP Foundation)
 
 ## 1) Build goal for this phase
 Create a reusable, single-client template that can be reconfigured for different local service businesses without rewriting the app.
@@ -53,7 +53,7 @@ drizzle.config.ts
 ## 5) Multi-client path (later phases)
 Today:
 - One Postgres database.
-- One active business selected by `CLIENTFLOW_BUSINESS_SLUG`.
+- One active business selected by `SERVICEFLOW_BUSINESS_SLUG`.
 
 Future options:
 - Option A: shared DB, scoped by `business_id` (already supported by schema).
