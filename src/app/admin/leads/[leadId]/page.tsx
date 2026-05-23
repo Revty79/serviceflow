@@ -1,6 +1,7 @@
 import { and, asc, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { getActiveBusiness } from "@/lib/business-context";
+import { requireAdminSession } from "@/lib/auth/admin-session.server";
 import { db } from "@/lib/db/client";
 import { leads } from "@/lib/db/schema";
 import { getLeadStatusLabel, leadStatusOptions } from "@/lib/leads/status";
@@ -14,9 +15,14 @@ type LeadDetailPageProps = {
 
 export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
   const { leadId } = await params;
+  const session = await requireAdminSession();
   const business = await getActiveBusiness();
 
   if (!business) {
+    notFound();
+  }
+
+  if (session.businessId !== business.id) {
     notFound();
   }
 

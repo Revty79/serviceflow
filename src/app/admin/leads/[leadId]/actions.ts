@@ -4,6 +4,7 @@ import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { getActiveBusiness } from "@/lib/business-context";
+import { requireAdminSession } from "@/lib/auth/admin-session.server";
 import { db } from "@/lib/db/client";
 import { leadNotes, leads, leadStatusEnum } from "@/lib/db/schema";
 
@@ -18,9 +19,14 @@ const addNoteSchema = z.object({
 });
 
 export async function updateLeadStatusAction(formData: FormData) {
+  const session = await requireAdminSession();
   const business = await getActiveBusiness();
 
   if (!business) {
+    return;
+  }
+
+  if (session.businessId !== business.id) {
     return;
   }
 
@@ -48,9 +54,14 @@ export async function updateLeadStatusAction(formData: FormData) {
 }
 
 export async function addLeadNoteAction(formData: FormData) {
+  const session = await requireAdminSession();
   const business = await getActiveBusiness();
 
   if (!business) {
+    return;
+  }
+
+  if (session.businessId !== business.id) {
     return;
   }
 
@@ -78,6 +89,7 @@ export async function addLeadNoteAction(formData: FormData) {
 
   await db.insert(leadNotes).values({
     leadId,
+    authorAdminId: session.adminId,
     note,
     isInternal: true,
   });

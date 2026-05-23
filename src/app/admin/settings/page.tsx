@@ -1,6 +1,9 @@
 import { RoutePlaceholder } from "@/components/dev/route-placeholder";
+import { requireAdminSession } from "@/lib/auth/admin-session.server";
 
-export default function AdminSettingsPage() {
+export default async function AdminSettingsPage() {
+  await requireAdminSession();
+
   return (
     <RoutePlaceholder
       routeType="Admin"

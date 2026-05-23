@@ -1,16 +1,28 @@
-import { RoutePlaceholder } from "@/components/dev/route-placeholder";
+import { redirect } from "next/navigation";
+import { getAdminSession } from "@/lib/auth/admin-session.server";
+import { AdminLoginForm } from "./login-form";
 
-export default function AdminLoginPage() {
+export default async function AdminLoginPage() {
+  const session = await getAdminSession();
+
+  if (session) {
+    redirect("/admin/leads");
+  }
+
   return (
-    <RoutePlaceholder
-      routeType="Admin"
-      title="Admin Login"
-      description="MVP auth entrypoint. This will start with a small, secure email/password flow and can later swap to Better Auth without touching lead modules."
-      nextMilestones={[
-        "Implement session-based auth using admins table credentials.",
-        "Protect /admin routes with middleware and role checks.",
-        "Add audit logging for failed and successful login attempts.",
-      ]}
-    />
+    <section className="mx-auto w-full max-w-md px-6 py-14">
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <p className="text-xs font-semibold uppercase tracking-wide text-teal-700">
+          Admin Access
+        </p>
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">
+          Sign in to ServiceFlow
+        </h1>
+        <p className="mt-2 text-sm leading-6 text-slate-700">
+          Use your admin credentials to access lead management.
+        </p>
+        <AdminLoginForm />
+      </div>
+    </section>
   );
 }

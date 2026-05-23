@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { desc, eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
 import { getActiveBusiness } from "@/lib/business-context";
+import { requireAdminSession } from "@/lib/auth/admin-session.server";
 import { db } from "@/lib/db/client";
 import { leads } from "@/lib/db/schema";
 import { getLeadStatusLabel } from "@/lib/leads/status";
@@ -13,6 +15,7 @@ function formatDate(iso: Date) {
 }
 
 export default async function AdminLeadInboxPage() {
+  const session = await requireAdminSession();
   const business = await getActiveBusiness();
 
   if (!business) {
@@ -25,6 +28,10 @@ export default async function AdminLeadInboxPage() {
         </p>
       </section>
     );
+  }
+
+  if (session.businessId !== business.id) {
+    redirect("/admin/login");
   }
 
   const leadRows = await db.query.leads.findMany({
