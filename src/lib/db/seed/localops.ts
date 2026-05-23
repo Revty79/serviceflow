@@ -138,7 +138,7 @@ export const localOpsSeed: {
   admin: {
     name: "LocalOps Owner",
     email: "owner@localopssystems.com",
-    passwordHash: "replace-me-before-production",
+    passwordHash: "seed-script-overrides-this",
     role: "owner",
     isActive: true,
   },

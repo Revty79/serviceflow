@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { and, eq } from "drizzle-orm";
+import { hashSync } from "bcryptjs";
 import { env } from "@/lib/config/env";
 import { db } from "../client";
 import { admins, businessSettings, intakeQuestions, services } from "../schema";
@@ -61,7 +62,7 @@ async function upsertLocalOpsTemplate() {
   const adminValues = {
     ...localOpsSeed.admin,
     email: adminEmail,
-    passwordHash: env.SEED_ADMIN_PASSWORD_HASH,
+    passwordHash: hashSync(env.SEED_ADMIN_PASSWORD, 12),
     updatedAt: new Date(),
   };
 

@@ -10,9 +10,7 @@ const envSchema = z.object({
   SERVICEFLOW_BUSINESS_SLUG: z.string().min(2).default("localops-systems"),
   ADMIN_SESSION_SECRET: z.string().min(16).default("dev-only-change-me-change-me"),
   SEED_ADMIN_EMAIL: z.string().email().default("owner@localopssystems.com"),
-  SEED_ADMIN_PASSWORD_HASH: z
-    .string()
-    .default("replace-me-before-production"),
+  SEED_ADMIN_PASSWORD: z.string().min(8).default("change-me-before-production"),
 });
 
 export const env = envSchema.parse({
@@ -27,8 +25,8 @@ export const env = envSchema.parse({
   ADMIN_SESSION_SECRET:
     process.env.ADMIN_SESSION_SECRET ?? "dev-only-change-me-change-me",
   SEED_ADMIN_EMAIL: process.env.SEED_ADMIN_EMAIL ?? "owner@localopssystems.com",
-  SEED_ADMIN_PASSWORD_HASH:
-    process.env.SEED_ADMIN_PASSWORD_HASH ?? "replace-me-before-production",
+  SEED_ADMIN_PASSWORD:
+    process.env.SEED_ADMIN_PASSWORD ?? "change-me-before-production",
 });
 
 export type Env = typeof env;
