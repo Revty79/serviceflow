@@ -1,16 +1,39 @@
-import { RoutePlaceholder } from "@/components/dev/route-placeholder";
+import { getActiveBusinessContext } from "@/lib/business-context";
+import { RequestForm } from "./request-form";
+import { submitLeadRequestAction } from "./actions";
 
-export default function RequestPage() {
+export default async function RequestPage() {
+  const context = await getActiveBusinessContext();
+
+  if (!context) {
+    return (
+      <main className="mx-auto w-full max-w-3xl px-6 py-16">
+        <section className="rounded-3xl border border-amber-200 bg-amber-50 p-8">
+          <h1 className="text-2xl font-semibold text-slate-900">
+            Business profile not configured
+          </h1>
+          <p className="mt-3 text-sm leading-6 text-slate-700">
+            Seed and activate a business in `business_settings` for slug:
+            {" "}
+            <span className="font-semibold">SERVICEFLOW_BUSINESS_SLUG</span>.
+          </p>
+        </section>
+      </main>
+    );
+  }
+
+  const { business, services, intakeQuestions } = context;
+
   return (
-    <RoutePlaceholder
-      routeType="Public"
-      title="Request Audit / Contact"
-      description="The MVP form route that creates leads and appointment requests. Form fields will be assembled from intake_questions + base lead fields."
-      nextMilestones={[
-        "Build shared lead intake schema with server-side validation.",
-        "Insert lead record, optional appointment request, and redirect to thank-you.",
-        "Capture mode-specific intent (audit, consultation, service request, estimate).",
-      ]}
+    <RequestForm
+      action={submitLeadRequestAction}
+      businessName={business.businessName}
+      ctaText={business.primaryCtaText}
+      email={business.email}
+      intakeQuestionsList={intakeQuestions}
+      phone={business.phone}
+      serviceArea={business.serviceArea}
+      servicesList={services}
     />
   );
 }
