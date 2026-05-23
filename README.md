@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ClientFlow
 
-## Getting Started
+Reusable lead capture, scheduling request, and admin workflow template for local service businesses.
 
-First, run the development server:
+Initial configuration target:
+- LocalOps Systems (first seed/client config)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Next adaptation target:
+- Neighbor electrician company (client zero for service-business mode)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech stack
+- Next.js (App Router)
+- TypeScript
+- PostgreSQL
+- Drizzle ORM
+- Tailwind CSS
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Current scope (foundation pass)
+- Project structure and MVP route skeleton
+- Drizzle schema draft for core entities
+- LocalOps seed data as first business configuration
+- Environment-driven setup for mode and business slug
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Setup
+1. Copy `.env.example` to `.env`.
+2. Update `DATABASE_URL` in `.env`.
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Generate SQL migrations from schema:
+   ```bash
+   npm run db:generate
+   ```
+5. Apply schema to local DB:
+   ```bash
+   npm run db:push
+   ```
+6. Seed LocalOps baseline data:
+   ```bash
+   npm run db:seed
+   ```
+7. Run the app:
+   ```bash
+   npm run dev
+   ```
 
-## Learn More
+## Database scripts
+- `npm run db:generate`
+- `npm run db:migrate`
+- `npm run db:push`
+- `npm run db:studio`
+- `npm run db:seed`
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Docs
+- Architecture overview: `docs/architecture.md`
+- Route and page plan: `docs/mvp-route-plan.md`
