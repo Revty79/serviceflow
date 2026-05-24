@@ -16,10 +16,8 @@ Next adaptation target:
 - Tailwind CSS
 
 ## Current scope (foundation pass)
-- Project structure and MVP route skeleton
-- Drizzle schema draft for core entities
-- LocalOps seed data as first business configuration
-- Environment-driven setup for mode and business slug
+- Milestone 1 completed: lead intake and admin lead management working
+- Milestone 2A current status: functional business settings editor at `/admin/settings`
 
 ## Setup
 1. Copy `.env.example` to `.env`.
@@ -44,6 +42,40 @@ Next adaptation target:
    ```bash
    npm run dev
    ```
+
+## Milestones
+- Milestone 1: Completed
+  - Public request form creates leads
+  - Admin login works
+  - Admin lead inbox works
+  - Lead detail status updates and internal notes work
+- Milestone 2A: In progress
+  - Active business settings can be edited in admin
+  - Changes revalidate affected public pages
+
+## Local Admin Login
+- URL: `http://localhost:3000/admin/login`
+- Default seeded email: `owner@localopssystems.com`
+- Default seeded password: `change-me-before-production`
+- You can override these in `.env` with:
+  - `SEED_ADMIN_EMAIL`
+  - `SEED_ADMIN_PASSWORD`
+
+## Business Settings Editor
+- Route: `http://localhost:3000/admin/settings`
+- This page edits the active business selected by `SERVICEFLOW_BUSINESS_SLUG`.
+- Editable fields in this milestone:
+  - `businessName`
+  - `phone`
+  - `email`
+  - `serviceArea`
+  - `primaryCtaText`
+  - `secondaryCtaText`
+  - `brandPrimary`
+  - `brandSecondary`
+  - `brandAccent`
+  - `timezone`
+  - `contactRouting.notifyEmails`
 
 ## Database scripts
 - `npm run db:generate`
