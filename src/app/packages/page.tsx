@@ -2,6 +2,8 @@ import Link from "next/link";
 import { MissingBusinessConfig } from "@/components/public/missing-business-config";
 import { getActiveBusinessContext } from "@/lib/business-context";
 
+export const dynamic = "force-dynamic";
+
 export default async function PackagesPage() {
   const context = await getActiveBusinessContext();
 

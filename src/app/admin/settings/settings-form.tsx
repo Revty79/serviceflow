@@ -14,6 +14,23 @@ type SettingsFormProps = {
   notifyEmailsDefault: string;
 };
 
+function normalizeColorForInput(value: string) {
+  const sixDigit = /^#([0-9a-fA-F]{6})$/;
+  const threeDigit = /^#([0-9a-fA-F]{3})$/;
+
+  if (sixDigit.test(value)) {
+    return value;
+  }
+
+  const threeDigitMatch = value.match(threeDigit);
+  if (threeDigitMatch) {
+    const [r, g, b] = threeDigitMatch[1].split("");
+    return `#${r}${r}${g}${g}${b}${b}`;
+  }
+
+  return "#000000";
+}
+
 function FieldError({
   state,
   field,
@@ -143,7 +160,7 @@ export function BusinessSettingsForm({
           <div className="mt-1 flex items-center gap-3">
             <input
               className="h-10 w-16 cursor-pointer rounded-lg border border-slate-300 bg-white p-1"
-              defaultValue={business.brandPrimary}
+              defaultValue={normalizeColorForInput(business.brandPrimary)}
               name="brandPrimary"
               required
               type="color"
@@ -158,7 +175,7 @@ export function BusinessSettingsForm({
           <div className="mt-1 flex items-center gap-3">
             <input
               className="h-10 w-16 cursor-pointer rounded-lg border border-slate-300 bg-white p-1"
-              defaultValue={business.brandSecondary}
+              defaultValue={normalizeColorForInput(business.brandSecondary)}
               name="brandSecondary"
               required
               type="color"
@@ -173,7 +190,7 @@ export function BusinessSettingsForm({
           <div className="mt-1 flex items-center gap-3">
             <input
               className="h-10 w-16 cursor-pointer rounded-lg border border-slate-300 bg-white p-1"
-              defaultValue={business.brandAccent}
+              defaultValue={normalizeColorForInput(business.brandAccent)}
               name="brandAccent"
               required
               type="color"

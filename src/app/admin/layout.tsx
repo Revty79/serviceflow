@@ -6,6 +6,7 @@ const adminNav = [
   { href: "/admin/login", label: "Login" },
   { href: "/admin/leads", label: "Leads" },
   { href: "/admin/settings", label: "Settings" },
+  { href: "/admin/account", label: "Account" },
 ];
 
 export default async function AdminLayout({

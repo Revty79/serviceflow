@@ -2,6 +2,8 @@ import { getActiveBusinessContext } from "@/lib/business-context";
 import { RequestForm } from "./request-form";
 import { submitLeadRequestAction } from "./actions";
 
+export const dynamic = "force-dynamic";
+
 export default async function RequestPage() {
   const context = await getActiveBusinessContext();
 

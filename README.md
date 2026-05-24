@@ -19,6 +19,7 @@ Next adaptation target:
 - Milestone 1 completed: lead intake and admin lead management working
 - Milestone 2A current status: functional business settings editor at `/admin/settings`
 - Milestone 2B current status: customer-facing public pages now live at `/`, `/services`, `/packages`, and `/thank-you`
+- Milestone 2C current status: client handoff seed safety + admin account password change at `/admin/account`
 
 ## Setup
 1. Copy `.env.example` to `.env`.
@@ -57,6 +58,10 @@ Next adaptation target:
   - Public pages read from active business config (`SERVICEFLOW_BUSINESS_SLUG`)
   - Services and package cards render from `services` table
   - Thank-you page shows business contact details from `business_settings`
+- Milestone 2C: Completed
+  - Seed script is safe by default for existing client data
+  - Existing admin passwords are preserved unless explicitly reset
+  - Logged-in admins can change password at `/admin/account`
 
 ## Local Admin Login
 - URL: `http://localhost:3000/admin/login`
@@ -65,6 +70,25 @@ Next adaptation target:
 - You can override these in `.env` with:
   - `SEED_ADMIN_EMAIL`
   - `SEED_ADMIN_PASSWORD`
+- Account route (requires login): `http://localhost:3000/admin/account`
+
+## Client Handoff Setup
+- `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD` are for initial bootstrap only.
+- `npm run db:seed` creates missing setup records.
+- Existing admin passwords are not overwritten unless `RESET_SEED_ADMIN_PASSWORD=true`.
+- Existing business, services, and intake records are not overwritten unless reset flags are set to `true`.
+- Reset flags (default `false`):
+  - `RESET_SEED_ADMIN_PASSWORD`
+  - `RESET_SEEDED_BUSINESS`
+  - `RESET_SEEDED_SERVICES`
+  - `RESET_SEEDED_INTAKE_QUESTIONS`
+- Recommended handoff flow:
+  1. Create database.
+  2. Configure `.env`.
+  3. Run `npm run db:push`.
+  4. Run `npm run db:seed`.
+  5. Give client temporary login credentials.
+  6. Client signs in and changes password at `/admin/account`.
 
 ## Business Settings Editor
 - Route: `http://localhost:3000/admin/settings`
