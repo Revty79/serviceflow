@@ -140,34 +140,46 @@ export function BusinessSettingsForm({
       <div className="grid gap-4 sm:grid-cols-3">
         <label className="text-sm font-medium text-slate-800">
           Brand Primary *
-          <input
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm"
-            defaultValue={business.brandPrimary}
-            name="brandPrimary"
-            required
-          />
+          <div className="mt-1 flex items-center gap-3">
+            <input
+              className="h-10 w-16 cursor-pointer rounded-lg border border-slate-300 bg-white p-1"
+              defaultValue={business.brandPrimary}
+              name="brandPrimary"
+              required
+              type="color"
+            />
+            <span className="text-xs text-slate-600">Choose primary color</span>
+          </div>
           <FieldError field="brandPrimary" state={state} />
         </label>
 
         <label className="text-sm font-medium text-slate-800">
           Brand Secondary *
-          <input
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm"
-            defaultValue={business.brandSecondary}
-            name="brandSecondary"
-            required
-          />
+          <div className="mt-1 flex items-center gap-3">
+            <input
+              className="h-10 w-16 cursor-pointer rounded-lg border border-slate-300 bg-white p-1"
+              defaultValue={business.brandSecondary}
+              name="brandSecondary"
+              required
+              type="color"
+            />
+            <span className="text-xs text-slate-600">Choose secondary color</span>
+          </div>
           <FieldError field="brandSecondary" state={state} />
         </label>
 
         <label className="text-sm font-medium text-slate-800">
           Brand Accent *
-          <input
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm"
-            defaultValue={business.brandAccent}
-            name="brandAccent"
-            required
-          />
+          <div className="mt-1 flex items-center gap-3">
+            <input
+              className="h-10 w-16 cursor-pointer rounded-lg border border-slate-300 bg-white p-1"
+              defaultValue={business.brandAccent}
+              name="brandAccent"
+              required
+              type="color"
+            />
+            <span className="text-xs text-slate-600">Choose accent color</span>
+          </div>
           <FieldError field="brandAccent" state={state} />
         </label>
       </div>

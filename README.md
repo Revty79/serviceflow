@@ -18,6 +18,7 @@ Next adaptation target:
 ## Current scope (foundation pass)
 - Milestone 1 completed: lead intake and admin lead management working
 - Milestone 2A current status: functional business settings editor at `/admin/settings`
+- Milestone 2B current status: customer-facing public pages now live at `/`, `/services`, `/packages`, and `/thank-you`
 
 ## Setup
 1. Copy `.env.example` to `.env`.
@@ -49,9 +50,13 @@ Next adaptation target:
   - Admin login works
   - Admin lead inbox works
   - Lead detail status updates and internal notes work
-- Milestone 2A: In progress
+- Milestone 2A: Completed
   - Active business settings can be edited in admin
   - Changes revalidate affected public pages
+- Milestone 2B: Completed
+  - Public pages read from active business config (`SERVICEFLOW_BUSINESS_SLUG`)
+  - Services and package cards render from `services` table
+  - Thank-you page shows business contact details from `business_settings`
 
 ## Local Admin Login
 - URL: `http://localhost:3000/admin/login`
@@ -76,6 +81,20 @@ Next adaptation target:
   - `brandAccent`
   - `timezone`
   - `contactRouting.notifyEmails`
+
+## Public Site Data Source
+- The following public routes now read from active business config:
+  - `/`
+  - `/services`
+  - `/packages`
+  - `/thank-you`
+- Active business is selected by `SERVICEFLOW_BUSINESS_SLUG` and loaded from `business_settings`.
+
+## Remaining Placeholders
+- No public scaffold/route-map placeholders remain.
+- Still intentionally out of scope:
+  - Service/package editing in admin
+  - Intake question editing in admin
 
 ## Database scripts
 - `npm run db:generate`

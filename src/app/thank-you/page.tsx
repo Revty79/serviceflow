@@ -1,6 +1,14 @@
 import Link from "next/link";
+import { MissingBusinessConfig } from "@/components/public/missing-business-config";
+import { getActiveBusiness } from "@/lib/business-context";
 
-export default function ThankYouPage() {
+export default async function ThankYouPage() {
+  const business = await getActiveBusiness();
+
+  if (!business) {
+    return <MissingBusinessConfig pageName="Thank-you page" />;
+  }
+
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-16">
       <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
@@ -8,19 +16,30 @@ export default function ThankYouPage() {
           Submission Received
         </p>
         <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900">
-          Thanks, we have your request.
+          Thanks, {business.businessName} received your request.
         </h1>
         <p className="mt-4 text-base leading-7 text-slate-700">
-          This page will eventually pull business-specific follow-up messaging from
-          `business_settings`, including response windows and preferred contact
-          channel.
+          A team member will review your details and follow up within one business
+          day. We typically respond by your preferred contact method first.
         </p>
-        <div className="mt-6">
+        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+          <p className="font-semibold text-slate-900">{business.businessName}</p>
+          <p>{business.phone}</p>
+          <p>{business.email}</p>
+          <p className="mt-1">Service area: {business.serviceArea}</p>
+        </div>
+        <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href="/"
             className="rounded-full bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-800"
           >
             Back to Home
+          </Link>
+          <Link
+            href="/services"
+            className="rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-400"
+          >
+            View Services
           </Link>
         </div>
       </section>
