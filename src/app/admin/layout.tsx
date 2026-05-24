@@ -5,6 +5,7 @@ import { logoutAdminAction } from "./actions";
 const adminNav = [
   { href: "/admin/login", label: "Login" },
   { href: "/admin/leads", label: "Leads" },
+  { href: "/admin/services", label: "Services" },
   { href: "/admin/settings", label: "Settings" },
   { href: "/admin/account", label: "Account" },
 ];

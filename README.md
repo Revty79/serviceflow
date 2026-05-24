@@ -20,6 +20,7 @@ Next adaptation target:
 - Milestone 2A current status: functional business settings editor at `/admin/settings`
 - Milestone 2B current status: customer-facing public pages now live at `/`, `/services`, `/packages`, and `/thank-you`
 - Milestone 2C current status: client handoff seed safety + admin account password change at `/admin/account`
+- Milestone 2D current status: admin services/packages editor at `/admin/services`
 
 ## Setup
 1. Copy `.env.example` to `.env`.
@@ -62,6 +63,10 @@ Next adaptation target:
   - Seed script is safe by default for existing client data
   - Existing admin passwords are preserved unless explicitly reset
   - Logged-in admins can change password at `/admin/account`
+- Milestone 2D: Completed
+  - Logged-in admins can create/edit/deactivate/reactivate services at `/admin/services`
+  - Public service/package pages update from admin-managed `services` records
+  - Featured package enforcement keeps one featured service per business
 
 ## Local Admin Login
 - URL: `http://localhost:3000/admin/login`
@@ -106,6 +111,19 @@ Next adaptation target:
   - `timezone`
   - `contactRouting.notifyEmails`
 
+## Admin Services Editor
+- Route: `http://localhost:3000/admin/services`
+- This page edits services for the active business selected by `SERVICEFLOW_BUSINESS_SLUG`.
+- Supported fields:
+  - `name`
+  - `slug`
+  - `summary`
+  - `description`
+  - `priceLabel`
+  - `sortOrder`
+  - `isFeatured`
+  - `isActive`
+
 ## Public Site Data Source
 - The following public routes now read from active business config:
   - `/`
@@ -117,7 +135,6 @@ Next adaptation target:
 ## Remaining Placeholders
 - No public scaffold/route-map placeholders remain.
 - Still intentionally out of scope:
-  - Service/package editing in admin
   - Intake question editing in admin
 
 ## Database scripts
