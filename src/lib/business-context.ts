@@ -4,12 +4,17 @@ import { db } from "@/lib/db/client";
 import { businessSettings, intakeQuestions, services } from "@/lib/db/schema";
 
 export async function getActiveBusiness() {
-  return db.query.businessSettings.findFirst({
-    where: and(
-      eq(businessSettings.slug, env.SERVICEFLOW_BUSINESS_SLUG),
-      eq(businessSettings.isActive, true),
-    ),
-  });
+  try {
+    return await db.query.businessSettings.findFirst({
+      where: and(
+        eq(businessSettings.slug, env.SERVICEFLOW_BUSINESS_SLUG),
+        eq(businessSettings.isActive, true),
+      ),
+    });
+  } catch (error) {
+    console.error("Failed to load active business:", error);
+    return null;
+  }
 }
 
 export async function getActiveBusinessContext() {
@@ -19,26 +24,31 @@ export async function getActiveBusinessContext() {
     return null;
   }
 
-  const [activeServices, activeQuestions] = await Promise.all([
-    db.query.services.findMany({
-      where: and(
-        eq(services.businessId, business.id),
-        eq(services.isActive, true),
-      ),
-      orderBy: [asc(services.sortOrder)],
-    }),
-    db.query.intakeQuestions.findMany({
-      where: and(
-        eq(intakeQuestions.businessId, business.id),
-        eq(intakeQuestions.isActive, true),
-      ),
-      orderBy: [asc(intakeQuestions.sortOrder)],
-    }),
-  ]);
+  try {
+    const [activeServices, activeQuestions] = await Promise.all([
+      db.query.services.findMany({
+        where: and(
+          eq(services.businessId, business.id),
+          eq(services.isActive, true),
+        ),
+        orderBy: [asc(services.sortOrder)],
+      }),
+      db.query.intakeQuestions.findMany({
+        where: and(
+          eq(intakeQuestions.businessId, business.id),
+          eq(intakeQuestions.isActive, true),
+        ),
+        orderBy: [asc(intakeQuestions.sortOrder)],
+      }),
+    ]);
 
-  return {
-    business,
-    services: activeServices,
-    intakeQuestions: activeQuestions,
-  };
+    return {
+      business,
+      services: activeServices,
+      intakeQuestions: activeQuestions,
+    };
+  } catch (error) {
+    console.error("Failed to load active business context:", error);
+    return null;
+  }
 }
