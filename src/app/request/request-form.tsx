@@ -204,6 +204,7 @@ export function RequestForm({
                 question.fieldType === "select" ||
                 question.fieldType === "multiselect";
               const isTextarea = question.fieldType === "textarea";
+              const isCheckbox = question.fieldType === "checkbox";
 
               if (isSelect && question.options?.length) {
                 return (
@@ -215,18 +216,48 @@ export function RequestForm({
                     {question.isRequired ? " *" : ""}
                     <select
                       className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
-                      defaultValue=""
+                      defaultValue={question.fieldType === "multiselect" ? [] : ""}
                       multiple={question.fieldType === "multiselect"}
                       name={fieldName}
                       required={question.isRequired}
                     >
-                      <option value="">Select one</option>
+                      {question.fieldType === "select" ? (
+                        <option value="">Select one</option>
+                      ) : null}
                       {question.options.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>
                       ))}
                     </select>
+                    {question.helpText ? (
+                      <p className="mt-1 text-xs text-slate-600">{question.helpText}</p>
+                    ) : null}
+                    <FieldError field={fieldName} state={state} />
+                  </label>
+                );
+              }
+
+              if (isCheckbox) {
+                return (
+                  <label
+                    className="block text-sm font-medium text-slate-800"
+                    key={question.id}
+                  >
+                    <span className="mb-2 block">
+                      {question.label}
+                      {question.isRequired ? " *" : ""}
+                    </span>
+                    <span className="inline-flex items-center gap-2 text-sm font-normal text-slate-700">
+                      <input
+                        className="h-4 w-4"
+                        name={fieldName}
+                        required={question.isRequired}
+                        type="checkbox"
+                        value="true"
+                      />
+                      Yes
+                    </span>
                     {question.helpText ? (
                       <p className="mt-1 text-xs text-slate-600">{question.helpText}</p>
                     ) : null}

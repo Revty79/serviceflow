@@ -121,6 +121,11 @@ export async function submitLeadRequestAction(
       if (values.length) {
         payloadValue = values;
       }
+    } else if (question.fieldType === "checkbox") {
+      const checkboxValue = formData.get(fieldName);
+      if (checkboxValue !== null) {
+        payloadValue = true;
+      }
     } else {
       const value = getStringValue(formData, fieldName);
       if (value) {
