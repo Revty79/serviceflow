@@ -1,30 +1,6 @@
-import type {
-  NewAdmin,
-  NewBusinessSettings,
-  NewIntakeQuestion,
-  NewService,
-} from "../schema";
+import type { SeedProfile } from "./profile-types";
 
-type SeedBusiness = Omit<NewBusinessSettings, "id" | "createdAt" | "updatedAt">;
-type SeedService = Omit<
-  NewService,
-  "id" | "businessId" | "createdAt" | "updatedAt"
->;
-type SeedIntakeQuestion = Omit<
-  NewIntakeQuestion,
-  "id" | "businessId" | "createdAt" | "updatedAt"
->;
-type SeedAdmin = Omit<
-  NewAdmin,
-  "id" | "businessId" | "createdAt" | "updatedAt" | "lastLoginAt"
->;
-
-export const localOpsSeed: {
-  business: SeedBusiness;
-  services: SeedService[];
-  intakeQuestions: SeedIntakeQuestion[];
-  admin: SeedAdmin;
-} = {
+export const localOpsSeed: SeedProfile = {
   business: {
     slug: "localops-systems",
     mode: "localops",

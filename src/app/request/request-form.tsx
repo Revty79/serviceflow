@@ -1,17 +1,23 @@
 "use client";
 
 import { useActionState } from "react";
-import type { intakeQuestions, services } from "@/lib/db/schema";
+import type { LeadType, intakeQuestions, services } from "@/lib/db/schema";
+import type { PublicLeadTypeOption } from "@/lib/public-copy";
 import type { RequestLeadActionState } from "./actions";
 
 const initialState: RequestLeadActionState = {};
 
 type RequestFormProps = {
   businessName: string;
+  requestTitle: string;
+  requestDescription: string;
+  requestMessageLabel: string;
   ctaText: string;
   serviceArea: string;
   email: string;
   phone: string;
+  leadTypeDefault: LeadType;
+  leadTypeOptions: PublicLeadTypeOption[];
   servicesList: (typeof services.$inferSelect)[];
   intakeQuestionsList: (typeof intakeQuestions.$inferSelect)[];
   action: (
@@ -62,10 +68,15 @@ function normalizeInputFieldType(fieldType: string) {
 
 export function RequestForm({
   businessName,
+  requestTitle,
+  requestDescription,
+  requestMessageLabel,
   ctaText,
   serviceArea,
   email,
   phone,
+  leadTypeDefault,
+  leadTypeOptions,
   servicesList,
   intakeQuestionsList,
   action,
@@ -78,11 +89,10 @@ export function RequestForm({
         {businessName}
       </p>
       <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900">
-        Request Business Systems Audit
+        {requestTitle}
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-slate-700">
-        Tell us where operations are breaking down, and we will follow up with a
-        practical plan. Service area: {serviceArea}.
+        {requestDescription} Service area: {serviceArea}.
       </p>
       <p className="mt-2 text-sm text-slate-600">
         Prefer direct contact? Email {email} or call {phone}.
@@ -163,13 +173,15 @@ export function RequestForm({
             Request Type *
             <select
               className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
-              defaultValue="audit_request"
+              defaultValue={leadTypeDefault}
               name="leadType"
               required
             >
-              <option value="audit_request">Free Audit Request</option>
-              <option value="consultation_request">Consultation Request</option>
-              <option value="general_contact">General Contact</option>
+              {leadTypeOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
             <FieldError field="leadType" state={state} />
           </label>
@@ -335,7 +347,7 @@ export function RequestForm({
         </div>
 
         <label className="block text-sm font-medium text-slate-800">
-          What should we know before contacting you? *
+          {requestMessageLabel}
           <textarea
             className="mt-1 min-h-32 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
             name="message"

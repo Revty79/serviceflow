@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MissingBusinessConfig } from "@/components/public/missing-business-config";
 import { getActiveBusinessContext } from "@/lib/business-context";
+import { getPublicCopy } from "@/lib/public-copy";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +13,7 @@ export default async function ServicesPage() {
   }
 
   const { business, services } = context;
+  const copy = getPublicCopy(business.mode);
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-12">
@@ -23,8 +25,7 @@ export default async function ServicesPage() {
           Services
         </h1>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">
-          We help businesses in {business.serviceArea} build reliable lead handling,
-          client intake, and follow-up systems that support consistent growth.
+          {copy.servicesPageIntro} Service area: {business.serviceArea}.
         </p>
       </section>
 
@@ -64,7 +65,9 @@ export default async function ServicesPage() {
                   href="/request"
                   className="rounded-full bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-800"
                 >
-                  Request This Service
+                  {business.mode === "service_business"
+                    ? "Request Service"
+                    : "Request This Service"}
                 </Link>
               </div>
             </article>
@@ -76,14 +79,17 @@ export default async function ServicesPage() {
             Services are being updated
           </h2>
           <p className="mt-3 text-sm leading-6 text-slate-700">
-            We are preparing current service offerings. You can still submit a
-            request and we will recommend the right package.
+            {business.mode === "service_business"
+              ? "We are preparing current service offerings. You can still submit a request and we will recommend the right service."
+              : "We are preparing current service offerings. You can still submit a request and we will recommend the right package."}
           </p>
           <Link
             href="/request"
             className="mt-5 inline-block rounded-full bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-800"
           >
-            Submit Request
+            {business.mode === "service_business"
+              ? "Request Service"
+              : "Submit Request"}
           </Link>
         </section>
       )}

@@ -22,6 +22,7 @@ Next adaptation target:
 - Milestone 2C current status: client handoff seed safety + admin account password change at `/admin/account`
 - Milestone 2D current status: admin services/packages editor at `/admin/services`
 - Milestone 2E current status: admin intake questions editor at `/admin/intake`
+- Milestone 3A current status: mode-aware public site copy for `localops` and `service_business`
 
 ## Setup
 1. Copy `.env.example` to `.env`.
@@ -72,6 +73,10 @@ Next adaptation target:
   - Logged-in admins can create/edit/deactivate/reactivate intake questions at `/admin/intake`
   - Intake fields are validated and stored for the active business only
   - Public request form questions are powered by admin-managed `intake_questions` records
+- Milestone 3A: Completed
+  - Public pages now use mode-aware fallback copy for `localops` and `service_business`
+  - Request form lead type options now switch by business mode
+  - Seed system now supports profile selection with `SERVICEFLOW_SEED_PROFILE`
 
 ## Local Admin Login
 - URL: `http://localhost:3000/admin/login`
@@ -81,6 +86,20 @@ Next adaptation target:
   - `SEED_ADMIN_EMAIL`
   - `SEED_ADMIN_PASSWORD`
 - Account route (requires login): `http://localhost:3000/admin/account`
+
+## Modes and Seed Profiles
+- `business_settings.mode` drives public-facing copy and request flow language.
+- Supported modes:
+  - `localops` for systems/automation consulting language.
+  - `service_business` for customer-facing service/estimate/appointment language.
+- `SERVICEFLOW_MODE` in `.env` should match your active business mode for deployment clarity.
+- `SERVICEFLOW_SEED_PROFILE` controls which template `npm run db:seed` uses:
+  - `localops` (default)
+  - `service_business`
+- Example `.env` values for a client service business:
+  - `SERVICEFLOW_MODE=service_business`
+  - `SERVICEFLOW_BUSINESS_SLUG=sample-service-business`
+  - `SERVICEFLOW_SEED_PROFILE=service_business`
 
 ## Client Handoff Setup
 - `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD` are for initial bootstrap only.
@@ -152,6 +171,7 @@ Next adaptation target:
   - `/packages`
   - `/thank-you`
 - Active business is selected by `SERVICEFLOW_BUSINESS_SLUG` and loaded from `business_settings`.
+- Public copy and request lead-type options are mode-aware based on `business_settings.mode`.
 
 ## Remaining Placeholders
 - No public scaffold/route-map placeholders remain.

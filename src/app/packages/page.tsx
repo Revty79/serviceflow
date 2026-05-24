@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MissingBusinessConfig } from "@/components/public/missing-business-config";
 import { getActiveBusinessContext } from "@/lib/business-context";
+import { getPublicCopy } from "@/lib/public-copy";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +13,7 @@ export default async function PackagesPage() {
   }
 
   const { business, services } = context;
+  const copy = getPublicCopy(business.mode);
   const featured = services.find((service) => service.isFeatured) ?? services[0] ?? null;
   const standardPackages = featured
     ? services.filter((service) => service.id !== featured.id)
@@ -27,8 +29,7 @@ export default async function PackagesPage() {
           Packages & Pricing
         </h1>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">
-          Choose a package based on your current stage, then request an audit or
-          consultation to confirm fit and rollout timing.
+          {copy.packagesPageIntro}
         </p>
       </section>
 
@@ -55,7 +56,9 @@ export default async function PackagesPage() {
             href="/request"
             className="mt-5 inline-block rounded-full bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-800"
           >
-            Request Featured Package
+            {business.mode === "service_business"
+              ? "Request Service"
+              : "Request Featured Package"}
           </Link>
         </section>
       ) : null}
@@ -89,7 +92,9 @@ export default async function PackagesPage() {
                 href="/request"
                 className="mt-5 inline-block rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-400"
               >
-                Request This Package
+                {business.mode === "service_business"
+                  ? "Request Service"
+                  : "Request This Package"}
               </Link>
             </article>
           ))}
@@ -102,14 +107,17 @@ export default async function PackagesPage() {
             Packages are being prepared
           </h2>
           <p className="mt-3 text-sm leading-6 text-slate-700">
-            We are finalizing package options. Submit a request and we will follow
-            up with recommendations based on your business needs.
+            {business.mode === "service_business"
+              ? "We are finalizing service options. Submit a request and we will follow up with recommendations based on your service needs."
+              : "We are finalizing package options. Submit a request and we will follow up with recommendations based on your business needs."}
           </p>
           <Link
             href="/request"
             className="mt-5 inline-block rounded-full bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-800"
           >
-            Request an Audit
+            {business.mode === "service_business"
+              ? "Request Service"
+              : "Request an Audit"}
           </Link>
         </section>
       ) : null}

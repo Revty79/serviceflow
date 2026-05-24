@@ -1,4 +1,5 @@
 import { getActiveBusinessContext } from "@/lib/business-context";
+import { getPublicCopy } from "@/lib/public-copy";
 import { RequestForm } from "./request-form";
 import { submitLeadRequestAction } from "./actions";
 
@@ -25,6 +26,7 @@ export default async function RequestPage() {
   }
 
   const { business, services, intakeQuestions } = context;
+  const copy = getPublicCopy(business.mode);
 
   return (
     <RequestForm
@@ -33,7 +35,12 @@ export default async function RequestPage() {
       ctaText={business.primaryCtaText}
       email={business.email}
       intakeQuestionsList={intakeQuestions}
+      leadTypeDefault={copy.requestLeadTypeDefault}
+      leadTypeOptions={copy.requestLeadTypeOptions}
       phone={business.phone}
+      requestDescription={copy.requestFormDescription}
+      requestMessageLabel={copy.requestMessageLabel}
+      requestTitle={copy.requestFormTitle}
       serviceArea={business.serviceArea}
       servicesList={services}
     />

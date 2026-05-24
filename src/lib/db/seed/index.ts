@@ -5,15 +5,23 @@ import { env } from "@/lib/config/env";
 import { db } from "../client";
 import { admins, businessSettings, intakeQuestions, services } from "../schema";
 import { localOpsSeed } from "./localops";
+import type { SeedProfileName } from "./profile-types";
+import { serviceBusinessSeed } from "./service-business";
 
-async function upsertLocalOpsTemplate() {
+const seedProfiles = {
+  localops: localOpsSeed,
+  service_business: serviceBusinessSeed,
+} as const;
+
+async function upsertTemplate(profileName: SeedProfileName) {
+  const seedTemplate = seedProfiles[profileName];
   const resetBusiness = env.RESET_SEEDED_BUSINESS;
   const resetServices = env.RESET_SEEDED_SERVICES;
   const resetIntakeQuestions = env.RESET_SEEDED_INTAKE_QUESTIONS;
   const resetSeedAdminPassword = env.RESET_SEED_ADMIN_PASSWORD;
 
   const existingBusiness = await db.query.businessSettings.findFirst({
-    where: eq(businessSettings.slug, localOpsSeed.business.slug),
+    where: eq(businessSettings.slug, seedTemplate.business.slug),
   });
 
   let businessId = existingBusiness?.id;
@@ -23,7 +31,7 @@ async function upsertLocalOpsTemplate() {
       await db
         .update(businessSettings)
         .set({
-          ...localOpsSeed.business,
+          ...seedTemplate.business,
           updatedAt: new Date(),
         })
         .where(eq(businessSettings.id, businessId));
@@ -34,7 +42,7 @@ async function upsertLocalOpsTemplate() {
   } else {
     const [inserted] = await db
       .insert(businessSettings)
-      .values(localOpsSeed.business)
+      .values(seedTemplate.business)
       .returning({ id: businessSettings.id });
 
     businessId = inserted.id;
@@ -42,13 +50,13 @@ async function upsertLocalOpsTemplate() {
   }
 
   if (!businessId) {
-    throw new Error("Unable to resolve LocalOps business id during seed.");
+    throw new Error("Unable to resolve seeded business id during seed.");
   }
 
   if (resetServices) {
     await db.delete(services).where(eq(services.businessId, businessId));
     await db.insert(services).values(
-      localOpsSeed.services.map((service) => ({
+      seedTemplate.services.map((service) => ({
         ...service,
         businessId,
       })),
@@ -63,7 +71,7 @@ async function upsertLocalOpsTemplate() {
     });
 
     const existingServiceSlugs = new Set(existingServices.map((service) => service.slug));
-    const missingServices = localOpsSeed.services.filter(
+    const missingServices = seedTemplate.services.filter(
       (service) => !existingServiceSlugs.has(service.slug),
     );
 
@@ -83,7 +91,7 @@ async function upsertLocalOpsTemplate() {
   if (resetIntakeQuestions) {
     await db.delete(intakeQuestions).where(eq(intakeQuestions.businessId, businessId));
     await db.insert(intakeQuestions).values(
-      localOpsSeed.intakeQuestions.map((question) => ({
+      seedTemplate.intakeQuestions.map((question) => ({
         ...question,
         businessId,
       })),
@@ -100,7 +108,7 @@ async function upsertLocalOpsTemplate() {
     const existingFieldKeys = new Set(
       existingQuestions.map((question) => question.fieldKey),
     );
-    const missingQuestions = localOpsSeed.intakeQuestions.filter(
+    const missingQuestions = seedTemplate.intakeQuestions.filter(
       (question) => !existingFieldKeys.has(question.fieldKey),
     );
 
@@ -142,11 +150,11 @@ async function upsertLocalOpsTemplate() {
     }
   } else {
     await db.insert(admins).values({
-      name: localOpsSeed.admin.name,
+      name: seedTemplate.admin.name,
       email: adminEmail,
       passwordHash: hashSync(env.SEED_ADMIN_PASSWORD, 12),
-      role: localOpsSeed.admin.role,
-      isActive: localOpsSeed.admin.isActive,
+      role: seedTemplate.admin.role,
+      isActive: seedTemplate.admin.isActive,
       businessId,
     });
     console.log("Created missing seed admin account.");
@@ -156,7 +164,14 @@ async function upsertLocalOpsTemplate() {
 }
 
 async function seed() {
-  const businessId = await upsertLocalOpsTemplate();
+  const selectedProfile = env.SERVICEFLOW_SEED_PROFILE;
+  const seedTemplate = seedProfiles[selectedProfile];
+
+  console.log(
+    `Seeding profile "${selectedProfile}" for business slug "${seedTemplate.business.slug}".`,
+  );
+
+  const businessId = await upsertTemplate(selectedProfile);
   console.log(`Seed complete. Active business id: ${businessId}`);
 }
 

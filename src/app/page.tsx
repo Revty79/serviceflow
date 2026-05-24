@@ -1,31 +1,9 @@
 import Link from "next/link";
 import { MissingBusinessConfig } from "@/components/public/missing-business-config";
 import { getActiveBusinessContext } from "@/lib/business-context";
+import { getPublicCopy } from "@/lib/public-copy";
 
 export const dynamic = "force-dynamic";
-
-const benefits = [
-  {
-    title: "Capture more leads",
-    description:
-      "Collect complete request details with clear calls to action and structured intake.",
-  },
-  {
-    title: "Respond faster",
-    description:
-      "Route inquiries into one lead inbox so your team can answer quickly and consistently.",
-  },
-  {
-    title: "Organize requests",
-    description:
-      "Track every incoming request by status from first contact through proposal and scheduling.",
-  },
-  {
-    title: "Follow up consistently",
-    description:
-      "Keep notes, update next steps, and reduce drop-off from missed outreach.",
-  },
-];
 
 export default async function Home() {
   const context = await getActiveBusinessContext();
@@ -35,12 +13,21 @@ export default async function Home() {
   }
 
   const { business, services } = context;
+  const copy = getPublicCopy(business.mode);
   const featuredServices = services.slice(0, 3);
 
-  const branding = business.branding as { headline?: unknown; tone?: unknown } | null;
+  const branding = business.branding as {
+    headline?: unknown;
+    subheadline?: unknown;
+    tone?: unknown;
+  } | null;
   const customHeadline =
     branding && typeof branding.headline === "string"
       ? branding.headline
+      : null;
+  const customSubheadline =
+    branding && typeof branding.subheadline === "string"
+      ? branding.subheadline
       : null;
   const tone =
     branding && typeof branding.tone === "string" ? branding.tone : null;
@@ -52,13 +39,13 @@ export default async function Home() {
           {business.businessName}
         </p>
         <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-slate-900">
-          {customHeadline ??
-            "Business systems implementation for local service companies that want fewer missed opportunities."}
+          {customHeadline ?? copy.homepageHeadlineFallback}
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-7 text-slate-700">
-          {business.businessName} helps teams in {business.serviceArea} streamline
-          lead capture, response time, and follow-up.{" "}
-          {tone ? `Approach: ${tone}.` : ""}
+          {customSubheadline ?? copy.homepageSubheadlineFallback}
+        </p>
+        <p className="mt-2 max-w-2xl text-base leading-7 text-slate-700">
+          Service area: {business.serviceArea}. {tone ? `Approach: ${tone}.` : ""}
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
@@ -78,10 +65,11 @@ export default async function Home() {
 
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-slate-900">
-          Why businesses choose {business.businessName}
+          Why {business.mode === "service_business" ? "customers" : "businesses"}{" "}
+          choose {business.businessName}
         </h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          {benefits.map((benefit) => (
+          {copy.benefitCards.map((benefit) => (
             <article
               key={benefit.title}
               className="rounded-xl border border-slate-200 bg-slate-50 p-4"
@@ -129,14 +117,18 @@ export default async function Home() {
                   href="/request"
                   className="mt-4 inline-block text-sm font-semibold text-teal-700 hover:text-teal-800"
                 >
-                  Request this service
+                  {business.mode === "service_business"
+                    ? "Request service"
+                    : "Request this service"}
                 </Link>
               </article>
             ))}
           </div>
         ) : (
           <p className="mt-4 text-sm text-slate-700">
-            Service packages will appear here once configured.
+            {business.mode === "service_business"
+              ? "Services will appear here once configured."
+              : "Service packages will appear here once configured."}
           </p>
         )}
       </section>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MissingBusinessConfig } from "@/components/public/missing-business-config";
 import { getActiveBusiness } from "@/lib/business-context";
+import { getPublicCopy } from "@/lib/public-copy";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +11,8 @@ export default async function ThankYouPage() {
   if (!business) {
     return <MissingBusinessConfig pageName="Thank-you page" />;
   }
+
+  const copy = getPublicCopy(business.mode);
 
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-16">
@@ -21,8 +24,7 @@ export default async function ThankYouPage() {
           Thanks, {business.businessName} received your request.
         </h1>
         <p className="mt-4 text-base leading-7 text-slate-700">
-          A team member will review your details and follow up within one business
-          day. We typically respond by your preferred contact method first.
+          {copy.thankYouFollowUp}
         </p>
         <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
           <p className="font-semibold text-slate-900">{business.businessName}</p>

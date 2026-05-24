@@ -8,6 +8,9 @@ const rawEnvSchema = z.object({
     .enum(["localops", "service_business"])
     .default("localops"),
   SERVICEFLOW_BUSINESS_SLUG: z.string().min(2).default("localops-systems"),
+  SERVICEFLOW_SEED_PROFILE: z
+    .enum(["localops", "service_business"])
+    .default("localops"),
   ADMIN_SESSION_SECRET: z.string().min(16).default("dev-only-change-me-change-me"),
   SEED_ADMIN_EMAIL: z.string().email().default("owner@localopssystems.com"),
   SEED_ADMIN_PASSWORD: z.string().min(8).default("change-me-before-production"),
@@ -26,6 +29,7 @@ const rawEnv = rawEnvSchema.parse({
   SERVICEFLOW_MODE: process.env.SERVICEFLOW_MODE ?? "localops",
   SERVICEFLOW_BUSINESS_SLUG:
     process.env.SERVICEFLOW_BUSINESS_SLUG ?? "localops-systems",
+  SERVICEFLOW_SEED_PROFILE: process.env.SERVICEFLOW_SEED_PROFILE ?? "localops",
   ADMIN_SESSION_SECRET:
     process.env.ADMIN_SESSION_SECRET ?? "dev-only-change-me-change-me",
   SEED_ADMIN_EMAIL: process.env.SEED_ADMIN_EMAIL ?? "owner@localopssystems.com",
