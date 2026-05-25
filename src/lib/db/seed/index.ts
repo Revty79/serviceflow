@@ -4,6 +4,7 @@ import { hashSync } from "bcryptjs";
 import { env } from "@/lib/config/env";
 import { db } from "../client";
 import { admins, businessSettings, intakeQuestions, services } from "../schema";
+import { electricianSeed } from "./electrician";
 import { localOpsSeed } from "./localops";
 import type { SeedProfileName } from "./profile-types";
 import { serviceBusinessSeed } from "./service-business";
@@ -11,6 +12,7 @@ import { serviceBusinessSeed } from "./service-business";
 const seedProfiles = {
   localops: localOpsSeed,
   service_business: serviceBusinessSeed,
+  electrician: electricianSeed,
 } as const;
 
 async function upsertTemplate(profileName: SeedProfileName) {

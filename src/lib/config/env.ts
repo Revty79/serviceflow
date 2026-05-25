@@ -9,7 +9,7 @@ const rawEnvSchema = z.object({
     .default("localops"),
   SERVICEFLOW_BUSINESS_SLUG: z.string().min(2).default("localops-systems"),
   SERVICEFLOW_SEED_PROFILE: z
-    .enum(["localops", "service_business"])
+    .enum(["localops", "service_business", "electrician"])
     .default("localops"),
   ADMIN_SESSION_SECRET: z.string().min(16).default("dev-only-change-me-change-me"),
   SEED_ADMIN_EMAIL: z.string().email().default("owner@localopssystems.com"),

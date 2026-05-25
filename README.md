@@ -23,6 +23,7 @@ Next adaptation target:
 - Milestone 2D current status: admin services/packages editor at `/admin/services`
 - Milestone 2E current status: admin intake questions editor at `/admin/intake`
 - Milestone 3A current status: mode-aware public site copy for `localops` and `service_business`
+- Milestone 3B current status: client-zero electrician configuration pack with `electrician` seed profile
 
 ## Setup
 1. Copy `.env.example` to `.env`.
@@ -77,6 +78,10 @@ Next adaptation target:
   - Public pages now use mode-aware fallback copy for `localops` and `service_business`
   - Request form lead type options now switch by business mode
   - Seed system now supports profile selection with `SERVICEFLOW_SEED_PROFILE`
+- Milestone 3B: Completed
+  - Added `electrician` seed profile for client-zero launch preparation
+  - Seed profile selector now supports `localops`, `service_business`, and `electrician`
+  - Added electrician client-zero setup and launch checklist documentation
 
 ## Local Admin Login
 - URL: `http://localhost:3000/admin/login`
@@ -96,10 +101,27 @@ Next adaptation target:
 - `SERVICEFLOW_SEED_PROFILE` controls which template `npm run db:seed` uses:
   - `localops` (default)
   - `service_business`
+  - `electrician`
 - Example `.env` values for a client service business:
   - `SERVICEFLOW_MODE=service_business`
   - `SERVICEFLOW_BUSINESS_SLUG=sample-service-business`
   - `SERVICEFLOW_SEED_PROFILE=service_business`
+
+## Electrician Client-Zero Setup
+- Use these `.env` values as a starting point:
+  - `SERVICEFLOW_MODE=service_business`
+  - `SERVICEFLOW_BUSINESS_SLUG=sample-electrician`
+  - `SERVICEFLOW_SEED_PROFILE=electrician`
+  - `SEED_ADMIN_EMAIL=owner@example.com`
+  - `SEED_ADMIN_PASSWORD=temporary-password-here`
+- Run setup:
+  1. `npm run db:push`
+  2. `npm run db:seed`
+  3. Log in at `/admin/login`
+  4. Change password at `/admin/account`
+  5. Edit business details at `/admin/settings`
+  6. Edit services at `/admin/services`
+  7. Edit intake questions at `/admin/intake`
 
 ## Client Handoff Setup
 - `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD` are for initial bootstrap only.
@@ -189,3 +211,4 @@ Next adaptation target:
 ## Docs
 - Architecture overview: `docs/architecture.md`
 - Route and page plan: `docs/mvp-route-plan.md`
+- Client-zero checklist: `docs/client-zero-electrician-checklist.md`

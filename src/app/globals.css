@@ -23,3 +23,62 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.sf-public-theme {
+  --sf-brand-primary: #0f766e;
+  --sf-brand-secondary: #f59e0b;
+  --sf-brand-accent: #0f172a;
+  --sf-brand-primary-rgb: 15 118 110;
+  --sf-brand-secondary-rgb: 245 158 11;
+  --sf-brand-accent-rgb: 15 23 42;
+}
+
+.sf-hero-surface {
+  border-color: rgb(var(--sf-brand-primary-rgb) / 0.25);
+  background:
+    linear-gradient(
+      135deg,
+      rgb(var(--sf-brand-primary-rgb) / 0.12) 0%,
+      #ffffff 55%,
+      rgb(var(--sf-brand-secondary-rgb) / 0.14) 100%
+    );
+}
+
+.sf-kicker {
+  color: var(--sf-brand-primary);
+}
+
+.sf-link-primary {
+  color: var(--sf-brand-primary);
+}
+
+.sf-link-primary:hover {
+  color: rgb(var(--sf-brand-primary-rgb) / 0.8);
+}
+
+.sf-price {
+  color: rgb(var(--sf-brand-primary-rgb) / 0.95);
+}
+
+.sf-featured-badge {
+  background-color: rgb(var(--sf-brand-secondary-rgb) / 0.2);
+  color: rgb(var(--sf-brand-accent-rgb) / 1);
+}
+
+.sf-btn-primary {
+  background-color: var(--sf-brand-primary);
+  color: #ffffff;
+}
+
+.sf-btn-primary:hover {
+  background-color: rgb(var(--sf-brand-primary-rgb) / 0.88);
+}
+
+.sf-btn-secondary {
+  border-color: rgb(var(--sf-brand-accent-rgb) / 0.32);
+  color: var(--sf-brand-accent);
+}
+
+.sf-btn-secondary:hover {
+  border-color: rgb(var(--sf-brand-accent-rgb) / 0.7);
+}

@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import type { LeadType, intakeQuestions, services } from "@/lib/db/schema";
 import type { PublicLeadTypeOption } from "@/lib/public-copy";
+import { getPublicThemeStyle } from "@/lib/public-theme";
 import type { RequestLeadActionState } from "./actions";
 
 const initialState: RequestLeadActionState = {};
@@ -16,6 +17,9 @@ type RequestFormProps = {
   serviceArea: string;
   email: string;
   phone: string;
+  brandPrimary: string;
+  brandSecondary: string;
+  brandAccent: string;
   leadTypeDefault: LeadType;
   leadTypeOptions: PublicLeadTypeOption[];
   servicesList: (typeof services.$inferSelect)[];
@@ -75,6 +79,9 @@ export function RequestForm({
   serviceArea,
   email,
   phone,
+  brandPrimary,
+  brandSecondary,
+  brandAccent,
   leadTypeDefault,
   leadTypeOptions,
   servicesList,
@@ -82,10 +89,18 @@ export function RequestForm({
   action,
 }: RequestFormProps) {
   const [state, formAction, isPending] = useActionState(action, initialState);
+  const themeStyle = getPublicThemeStyle({
+    brandPrimary,
+    brandSecondary,
+    brandAccent,
+  });
 
   return (
-    <section className="mx-auto w-full max-w-4xl px-6 py-14">
-      <p className="text-sm font-semibold uppercase tracking-wide text-teal-700">
+    <section
+      className="sf-public-theme mx-auto w-full max-w-4xl px-6 py-14"
+      style={themeStyle}
+    >
+      <p className="sf-kicker text-sm font-semibold uppercase tracking-wide">
         {businessName}
       </p>
       <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900">
@@ -390,7 +405,7 @@ export function RequestForm({
         </div>
 
         <button
-          className="rounded-full bg-teal-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-60"
+          className="sf-btn-primary rounded-full px-6 py-2.5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
           disabled={isPending}
           type="submit"
         >

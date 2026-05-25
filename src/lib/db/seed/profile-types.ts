@@ -32,4 +32,4 @@ export type SeedProfile = {
   admin: SeedAdmin;
 };
 
-export type SeedProfileName = "localops" | "service_business";
+export type SeedProfileName = "localops" | "service_business" | "electrician";

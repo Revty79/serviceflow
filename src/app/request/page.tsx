@@ -37,6 +37,9 @@ export default async function RequestPage() {
       intakeQuestionsList={intakeQuestions}
       leadTypeDefault={copy.requestLeadTypeDefault}
       leadTypeOptions={copy.requestLeadTypeOptions}
+      brandAccent={business.brandAccent}
+      brandPrimary={business.brandPrimary}
+      brandSecondary={business.brandSecondary}
       phone={business.phone}
       requestDescription={copy.requestFormDescription}
       requestMessageLabel={copy.requestMessageLabel}

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MissingBusinessConfig } from "@/components/public/missing-business-config";
 import { getActiveBusinessContext } from "@/lib/business-context";
 import { getPublicCopy } from "@/lib/public-copy";
+import { getPublicThemeStyle } from "@/lib/public-theme";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,11 @@ export default async function Home() {
 
   const { business, services } = context;
   const copy = getPublicCopy(business.mode);
+  const themeStyle = getPublicThemeStyle({
+    brandPrimary: business.brandPrimary,
+    brandSecondary: business.brandSecondary,
+    brandAccent: business.brandAccent,
+  });
   const featuredServices = services.slice(0, 3);
 
   const branding = business.branding as {
@@ -33,9 +39,12 @@ export default async function Home() {
     branding && typeof branding.tone === "string" ? branding.tone : null;
 
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-10 px-6 py-14">
-      <section className="rounded-3xl border border-teal-100 bg-gradient-to-br from-teal-50 via-white to-amber-50 p-8 shadow-sm">
-        <p className="text-xs font-semibold uppercase tracking-widest text-teal-700">
+    <main
+      className="sf-public-theme mx-auto flex w-full max-w-6xl flex-1 flex-col gap-10 px-6 py-14"
+      style={themeStyle}
+    >
+      <section className="sf-hero-surface rounded-3xl border p-8 shadow-sm">
+        <p className="sf-kicker text-xs font-semibold uppercase tracking-widest">
           {business.businessName}
         </p>
         <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-slate-900">
@@ -49,13 +58,13 @@ export default async function Home() {
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
-            className="rounded-full bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-800"
+            className="sf-btn-primary rounded-full px-5 py-2.5 text-sm font-semibold transition"
             href="/request"
           >
             {business.primaryCtaText}
           </Link>
           <Link
-            className="rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-400"
+            className="sf-btn-secondary rounded-full border bg-white px-5 py-2.5 text-sm font-semibold transition"
             href="/packages"
           >
             {business.secondaryCtaText ?? "View Service Packages"}
@@ -89,7 +98,7 @@ export default async function Home() {
         <div className="flex items-center justify-between gap-3">
           <h2 className="text-lg font-semibold text-slate-900">Popular services</h2>
           <Link
-            className="text-sm font-semibold text-teal-700 hover:text-teal-800"
+            className="sf-link-primary text-sm font-semibold"
             href="/services"
           >
             View all services
@@ -109,13 +118,13 @@ export default async function Home() {
                   {service.summary ?? service.description ?? "Service package details."}
                 </p>
                 {service.priceLabel ? (
-                  <p className="mt-3 text-sm font-semibold text-teal-800">
+                  <p className="sf-price mt-3 text-sm font-semibold">
                     {service.priceLabel}
                   </p>
                 ) : null}
                 <Link
                   href="/request"
-                  className="mt-4 inline-block text-sm font-semibold text-teal-700 hover:text-teal-800"
+                  className="sf-link-primary mt-4 inline-block text-sm font-semibold"
                 >
                   {business.mode === "service_business"
                     ? "Request service"

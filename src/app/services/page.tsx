@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MissingBusinessConfig } from "@/components/public/missing-business-config";
 import { getActiveBusinessContext } from "@/lib/business-context";
 import { getPublicCopy } from "@/lib/public-copy";
+import { getPublicThemeStyle } from "@/lib/public-theme";
 
 export const dynamic = "force-dynamic";
 
@@ -14,11 +15,19 @@ export default async function ServicesPage() {
 
   const { business, services } = context;
   const copy = getPublicCopy(business.mode);
+  const themeStyle = getPublicThemeStyle({
+    brandPrimary: business.brandPrimary,
+    brandSecondary: business.brandSecondary,
+    brandAccent: business.brandAccent,
+  });
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-12">
+    <main
+      className="sf-public-theme mx-auto w-full max-w-6xl px-6 py-12"
+      style={themeStyle}
+    >
       <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-        <p className="text-xs font-semibold uppercase tracking-wide text-teal-700">
+        <p className="sf-kicker text-xs font-semibold uppercase tracking-wide">
           {business.businessName}
         </p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">
@@ -39,14 +48,14 @@ export default async function ServicesPage() {
               <div className="flex items-start justify-between gap-3">
                 <h2 className="text-xl font-semibold text-slate-900">{service.name}</h2>
                 {service.isFeatured ? (
-                  <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">
+                  <span className="sf-featured-badge rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-wide">
                     Featured
                   </span>
                 ) : null}
               </div>
 
               {service.priceLabel ? (
-                <p className="mt-3 text-sm font-semibold text-teal-800">
+                <p className="sf-price mt-3 text-sm font-semibold">
                   {service.priceLabel}
                 </p>
               ) : null}
@@ -63,7 +72,7 @@ export default async function ServicesPage() {
               <div className="mt-5">
                 <Link
                   href="/request"
-                  className="rounded-full bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-800"
+                  className="sf-btn-primary rounded-full px-5 py-2.5 text-sm font-semibold transition"
                 >
                   {business.mode === "service_business"
                     ? "Request Service"
@@ -85,7 +94,7 @@ export default async function ServicesPage() {
           </p>
           <Link
             href="/request"
-            className="mt-5 inline-block rounded-full bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-800"
+            className="sf-btn-primary mt-5 inline-block rounded-full px-5 py-2.5 text-sm font-semibold transition"
           >
             {business.mode === "service_business"
               ? "Request Service"

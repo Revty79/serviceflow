@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MissingBusinessConfig } from "@/components/public/missing-business-config";
 import { getActiveBusiness } from "@/lib/business-context";
 import { getPublicCopy } from "@/lib/public-copy";
+import { getPublicThemeStyle } from "@/lib/public-theme";
 
 export const dynamic = "force-dynamic";
 
@@ -13,11 +14,19 @@ export default async function ThankYouPage() {
   }
 
   const copy = getPublicCopy(business.mode);
+  const themeStyle = getPublicThemeStyle({
+    brandPrimary: business.brandPrimary,
+    brandSecondary: business.brandSecondary,
+    brandAccent: business.brandAccent,
+  });
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-16">
+    <main
+      className="sf-public-theme mx-auto w-full max-w-3xl px-6 py-16"
+      style={themeStyle}
+    >
       <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-        <p className="text-sm font-semibold uppercase tracking-wide text-teal-700">
+        <p className="sf-kicker text-sm font-semibold uppercase tracking-wide">
           Submission Received
         </p>
         <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900">
@@ -35,13 +44,13 @@ export default async function ThankYouPage() {
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href="/"
-            className="rounded-full bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-800"
+            className="sf-btn-primary rounded-full px-5 py-2.5 text-sm font-semibold transition"
           >
             Back to Home
           </Link>
           <Link
             href="/services"
-            className="rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-400"
+            className="sf-btn-secondary rounded-full border bg-white px-5 py-2.5 text-sm font-semibold transition"
           >
             View Services
           </Link>
